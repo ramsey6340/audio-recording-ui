@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --primary-color: #1474ec;
+  --primary-color-opacity: rgba(20, 116, 236, 0.5);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}

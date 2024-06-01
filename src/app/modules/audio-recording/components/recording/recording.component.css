@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #28343c;
+}
+
+.audio-container {
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
