@@ -1,7 +1,7 @@
 // audio.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,11 @@ export class AudioService {
   uploadAudio(file: File): Observable<Blob> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-
-    return this.http.post(this.apiUrl, formData, { responseType: 'blob' });
+    return this.http.post(this.apiUrl, formData, { responseType: 'blob' }).pipe(
+      catchError(err => {
+        throw new Error(err.error.message);
+      })
+    );
   }
 }
 
