@@ -61,27 +61,37 @@ export class FooterComponent implements OnChanges{
 
   async sendAudio() {
     if(this.audioURL != null) {
+      this.recordingService.sendingAudio = true;
       let blob = await fetch(this.audioURL).then(r => r.blob());
-      var file = new File([blob], "audio_generate");
-      this.audioService.uploadAudio(file).subscribe((response) => {
-        const url = window.URL.createObjectURL(response);
-        console.log(url);
-        //const img = document.createElement('img');
-        //img.src = url;
-        //document.body.appendChild(img);
+      let file = new File([blob], "audio_generate");
+      this.audioService.uploadAudio(file).subscribe({
+        next: response => {
+          this.recordingService.imageReceived = true;
+          const url = window.URL.createObjectURL(response);
+          console.log(url);
+          this.recordingService.imageUrl = url;
+          this.cd.detectChanges();
+          //const img = document.createElement('img');
+          //img.src = url;
+          //document.body.appendChild(img);
+        },
+        error:  err => {
+          this.recordingService.sendingAudio = false;
+          this.cd.detectChanges();
+          console.log(err);
+        }
       });
 
 
 
-      this.recordingService.sendingAudio = true;
       //this.isSending$ = this.recordingService.sendingAudio$;
-      this.cd.detectChanges();
-  
-      setTimeout(() => {
+
+
+      /*setTimeout(() => {
         this.recordingService.sendingAudio = false;
         this.recordingService.imageReceived = true;
         this.cd.detectChanges();
-      }, 3000);
+      }, 3000);*/
     }
   }
 }
